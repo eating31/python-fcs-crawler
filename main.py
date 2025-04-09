@@ -105,7 +105,9 @@ def scrape_fsc_news(yesterday):
     return results
 
 def main():
-    yesterday = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+    
+    print("Web scraper ran at", datetime.now())
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
     
     # 爬取金管會新聞
     fsc_news = scrape_fsc_news(yesterday)
