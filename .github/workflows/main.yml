@@ -1,10 +1,14 @@
 name: Run Web Scraper
 
 on:
+  push:
+    paths:
+      - '.github/workflows/main.yml'
+      
   schedule:
     # 設置為每天早上8點執行 (UTC+0時區)
     # 如果你在台灣 (UTC+8)，想要台灣時間早上8點執行，需要設為 UTC 時間的 0:00
-    - cron: '15 12 * * *'  # UTC 時間格式：分 時 日 月 星期
+    - cron: '35 12 * * *'  # UTC 時間格式：分 時 日 月 星期
   
   # 也可以手動觸發工作流程
   workflow_dispatch:
