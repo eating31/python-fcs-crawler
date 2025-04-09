@@ -1,0 +1,31 @@
+name: Run Web Scraper
+
+on:
+  schedule:
+    # 設置為每天早上8點執行 (UTC+0時區)
+    # 如果你在台灣 (UTC+8)，想要台灣時間早上8點執行，需要設為 UTC 時間的 0:00
+    - cron: '45 16 * * *'  # UTC 時間格式：分 時 日 月 星期
+  
+  # 也可以手動觸發工作流程
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Run scraper
+      run: python main.py
