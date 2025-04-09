@@ -2,7 +2,7 @@ name: Run Web Scraper
 
 on:
   schedule:
-    - cron: '*/8 * * * *'  # UTC 時間格式：分 時 日 月 星期
+    - cron: '0 0 * * *'  # UTC 時間格式：分 時 日 月 星期
   
   # 也可以手動觸發工作流程
   workflow_dispatch:
