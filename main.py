@@ -6,6 +6,9 @@ import time
 import ssl
 from requests.adapters import HTTPAdapter
 from urllib3.util.ssl_ import create_urllib3_context
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # 創建自定義適配器來處理特殊的SSL憑證
 class TLSAdapter(HTTPAdapter):
@@ -22,7 +25,7 @@ class TLSAdapter(HTTPAdapter):
 # 在你的爬蟲函數中使用該適配器
 
 def scrape_fsc_news(yesterday):
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    
     # 基本網址
     base_url = "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2"
     
