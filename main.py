@@ -32,13 +32,30 @@ def scrape_fsc_news(yesterday):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'zh-TW,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Cache-Control': 'max-age=0'
+    }
 
       # 創建會話並設定適配器
     # session = requests.Session()
     # adapter = TLSAdapter()
     # session.mount('https://', adapter)
+    # 增加重試次數和超時設定
+    session = requests.Session()
+    retries = urllib3.util.Retry(
+        total=5,
+        backoff_factor=1,
+        status_forcelist=[429, 500, 502, 503, 504]
+    )
+    adapter = requests.adapters.HTTPAdapter(max_retries=retries)
+    session.mount('https://', adapter)
     
-    response = requests.get(base_url, headers=headers, verify=False)
+    response = requests.get(base_url, headers=headers, verify=False, timeout=30)
     response.encoding = 'utf-8'  # 設置正確的編碼
     
     if response.status_code != 200:
