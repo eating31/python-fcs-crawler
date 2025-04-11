@@ -3,8 +3,26 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime, timedelta
 import time
+import ssl
+from requests.adapters import HTTPAdapter
+from urllib3.util.ssl_ import create_urllib3_context
+
+# 創建自定義適配器來處理特殊的SSL憑證
+class TLSAdapter(HTTPAdapter):
+    def init_poolmanager(self, *args, **kwargs):
+        context = create_urllib3_context()
+        # 設定較寬鬆的SSL選項，但仍保持基本安全性
+        context.options |= ssl.OP_NO_SSLv2
+        context.options |= ssl.OP_NO_SSLv3
+        context.options |= ssl.OP_NO_TLSv1
+        context.check_hostname = True
+        kwargs['ssl_context'] = context
+        return super().init_poolmanager(*args, **kwargs)
+
+# 在你的爬蟲函數中使用該適配器
 
 def scrape_fsc_news(yesterday):
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     # 基本網址
     base_url = "https://www.fsc.gov.tw/ch/home.jsp?id=96&parentpath=0,2"
     
@@ -12,6 +30,11 @@ def scrape_fsc_news(yesterday):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
+
+      # 創建會話並設定適配器
+    session = requests.Session()
+    adapter = TLSAdapter()
+    session.mount('https://', adapter)
     
     response = requests.get(base_url, headers=headers)
     response.encoding = 'utf-8'  # 設置正確的編碼
