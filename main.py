@@ -107,7 +107,7 @@ def scrape_fsc_news(yesterday):
                     news_link = "https://www.fsc.gov.tw/ch/" + relative_link
                 
                 # 訪問新聞詳情頁面獲取內文和瀏覽人次
-                detail_response = requests.get(news_link, headers=headers)
+                detail_response = requests.get(news_link, headers=headers, verify=False, timeout=30)
                 detail_response.encoding = 'utf-8'
                 
                 if detail_response.status_code == 200:
