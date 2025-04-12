@@ -168,9 +168,8 @@ def main():
     payload = json.dumps(payload, ensure_ascii=False, indent=2)
 
     # Make.com 生成的 Webhook URL
-    #webhook_url = "https://hook.eu2.make.com/yod0vjimtnner8rj856drywapgfowcag"  #old
-    webhook_url = "https://hook.eu2.make.com/si5qqqfq4dfkp42pbrofm9j4igcpt5u8"
-    #webhook_url = "https://hook.eu2.make.com/8lgnxg6exb8v4bt5m9jp7mq2k6ebew6y"
+    webhook_url = "https://hook.eu2.make.com/1afmx4mn534sfphv2jvf5skhpxjfnfk2" 
+    #webhook_url = "https://hook.eu2.make.com/si5qqqfq4dfkp42pbrofm9j4igcpt5u8" # old 
     try:
      
         
